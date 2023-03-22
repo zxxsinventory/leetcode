@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-import "time"
+// import "time"
 
 func main() {
 	// 1. Two Sum
@@ -23,9 +23,15 @@ func main() {
 	// fmt.Println(lengthOfLongestSubstring("pwwkew"))
 	// fmt.Println(lengthOfLongestSubstring("bbbbb"))
 	// fmt.Println(lengthOfLongestSubstring("abcabcbb"))
-	start := time.Now()
-	time.Sleep(time.Second*1)
-	fmt.Println(time.Now() - start)
+
+	// 4. Longest Substring Without Repeating Characters	
+	arr_0 := []int{1,3}
+	arr_1 := []int{2}
+	fmt.Println(medianOfTwoSortedArrays(arr_0,arr_1))
+	fmt.Println(medianOfTwoSortedArrays([]int{1,2},[]int{3,4}))
+	// start := time.Now()
+	// time.Sleep(time.Second*1)
+	// fmt.Println(time.Now() - start)
 
 }
 
@@ -110,6 +116,42 @@ func lengthOfLongestSubstring(s string) int {
 		}
 	}
 	return result
+}
+
+func medianOfTwoSortedArrays(arr_0 []int, arr_1 []int) float64{
+	i := 0
+	j := 0
+	totalLen := len(arr_0) + len(arr_1)
+	k := 0
+	mergeArr := make([]int, totalLen)
+	for {
+		if len(arr_0) <= i {
+			mergeArr[k] = arr_1[j]
+			j++
+		} else if len(arr_1) <= j {
+			mergeArr[k] = arr_0[i]
+			i++
+		} else {
+			if arr_0[i] <= arr_1[j] {
+				mergeArr[k] = arr_0[i]
+				i++
+			} else {
+				mergeArr[k] = arr_1[j]
+				j++
+			}
+		}
+		k++
+		fmt.Println("%d,%d,%d", i, j, k)
+		if len(arr_0) <= i && len(arr_1) <= j {
+			break
+		}
+	}
+	if totalLen & '1' == 0 {
+		fmt.Println("even",mergeArr[totalLen/2],mergeArr[(totalLen/2) + 1])
+		return float64((mergeArr[totalLen/2] + mergeArr[(totalLen/2) - 1]))/2
+	}
+	fmt.Println("odd")
+	return float64(mergeArr[totalLen/2])
 }
 
 
